@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ABC "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
 typedef struct {
     char key[62];
 } Codec;
@@ -31,16 +33,16 @@ int encode(char* textin, char* textout, int len, void* codec){
 
     Codec *myCodec = (Codec *)codec;
 
-    // textin [a,l ,e ,1 ,3, J ]
+    // textin [h,e,l,l,o ]
     // key [d,e,f,g,h,i......abc]
     // our abc [a,b,c,d,e,f,g......]
-    
+
     for(int i = 0; i< len; i++){
         char current = textin[i];
         //find corosponding character in the key
         int index = -1;
         for(int j = 0; j<62 ;j++){
-            if(myCodec->key[j] == current){
+            if(ABC[j] == current){
                 index =j;
                 break;
             }
@@ -48,7 +50,7 @@ int encode(char* textin, char* textout, int len, void* codec){
     
         //if found encode it
         if(index!=-1){
-            textout[i] = myCodec->key[(index+3)%62];
+            textout[i] = myCodec->key[index];
         }else{
             return -1;
         }
@@ -77,7 +79,7 @@ int decode(char* textin, char* textout, int len, void* codec){
     
         //if found encode it
         if(index!=-1){
-            textout[i] = myCodec->key[(index-3+26)%62];
+            textout[i] = ABC[index];
         }else{
             return -1;
         }
@@ -91,6 +93,8 @@ void freeCodec(void* codec){
 }
 
 int main(){
+
+    Codec cod = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
 
     return 0;
 }
