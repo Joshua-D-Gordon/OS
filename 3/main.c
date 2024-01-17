@@ -94,7 +94,7 @@ void freeCodec(void* codec){
 
 int main(){
 
-    Codec cod = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
+    Codec* cod = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
 
     return 0;
 }

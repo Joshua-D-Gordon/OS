@@ -1,16 +1,9 @@
 #include <stdio.h>
 
-int main(){
-    
-    int arr[] = {1,2,3};
-    for(int i =0; i<6;i++){
-        printf("%d ",arr[i]);
-    }
-    printf("\n");
-    printf("enter a number greater than 3\n");
-    int num;
-    scanf("%d", &num);
-    arr[num] = 6;
-    printf("%d",arr[num]);
+int main()
+{
+    int *ptr = NULL;
+    *ptr = 42;  // Dereferencing a null pointer, leading to a segmentation fault
+
     return 0;
 }
