@@ -30,8 +30,8 @@
 
         //first child process
         if(!fork()){
-            close(pipefdone[0]); // closing STDOUT fd[1] = NULL
-            dup2(pipefdone[1], STDOUT_FILENO); // fd[1] = pipefdone[0];
+            close(1); // closing STDOUT fd[1] = NULL
+            dup2(pipefdone[1], 1); // fd[1] = pipefdone[0];
             close(pipefdone[1]); // dont need this
             //comand line
             //execlp("usr/bin/tar", "tar", "czf", "-",inputFile, NULL);
@@ -44,8 +44,8 @@
         if (!fork()) {
             close (pipefdone[1]); // close stdin // in child fd[0]=NULL
             close (pipefdtwo[0]) ; // close stdout // in CHILD fd[1]= NULL
-            dup2(pipefdone[0], STDIN_FILENO);   // in child fd[0]=pipefdone[1];
-            dup2(pipefdtwo[1], STDOUT_FILENO);   // in child fd[1]=pipetwo[0];
+            dup2(pipefdone[0], 0);   // in child fd[0]=pipefdone[1];
+            dup2(pipefdtwo[1], 1);   // in child fd[1]=pipetwo[0];
             close(pipefdone[0]);
             close(pipefdtwo[1]);
             // TODO need to create commandline
@@ -58,7 +58,7 @@
             close(pipefdone[0]); // close STDIN - fd[0] = NULL
             close(pipefdone[1]);
             close(pipefdtwo[1]);
-            dup2(pipefdtwo[0], STDIN_FILENO); // fd[0] = pipefdtwo[1];
+            dup2(pipefdtwo[0], 0); // fd[0] = pipefdtwo[1];
             close(pipefdtwo[0]);
             // TODO need to create commandline
             execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myunzip.gpg",  NULL);
@@ -92,34 +92,36 @@
 
         if(!fork()){
             close(pipefdone[0]); // close unused read end of pipefdone
-            dup2(pipefdone[1], STDIN_FILENO);
+            dup2(pipefdone[1], 1);
             close(pipefdone[1]); //close original pipe end
 
             execlp("gpg", "gpg", "--decrypt", "--output","-", inputFile, NULL);
             perror("execlp gpg");
-            exit(1);
+            exit(EXIT_FAILURE);
         }
 
         if(!fork()){
             close(pipefdone[1]);
             close(pipefdtwo[0]);
-            dup2(pipefdone[0], STDIN_FILENO);
-            dup2(pipefdone[1], STDOUT_FILENO);
+            dup2(pipefdone[0],0);
+            dup2(pipefdone[1], 1);
             close(pipefdone[0]);
             close(pipefdtwo[1]);
 
-            execlp("gunzip", "gunzip", NULL);
+                execlp("gunzip", "gunzip", NULL);
             perror("execlp gunzip");
-            exit(1);
+            exit(EXIT_FAILURE);
         }
 
         if(!fork()){
+            close(pipefdone[0]); // close STDIN - fd[0] = NULL
+            close(pipefdone[1]); //added
             close(pipefdtwo[1]);
-            dup2(pipefdtwo[0], STDIN_FILENO);
+            dup2(pipefdtwo[0], 0);
             close(pipefdtwo[0]);
-
             execlp("tar", "tar", "xvf", "-", NULL);
             perror("execlp tar");
+            //printf(stderr, "errno: %d\n", errno);
             exit(EXIT_FAILURE);
         }
         close(pipefdone[0]);
