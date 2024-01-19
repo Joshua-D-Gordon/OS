@@ -19,8 +19,14 @@
         //creating pipeline
         int pipefdone[2];
         int pipefdtwo[2];
-        pipe(pipefdone);
-        pipe(pipefdtwo);
+        if(pipe(pipefdone) == -1){
+            perror("pipe");
+            exit(1);
+        }
+        if(pipe(pipefdtwo) == -1){
+            perror("pipe");
+            exit(1);
+        }
 
         //first child process
         if(!fork()){
@@ -28,7 +34,7 @@
             dup2(pipefdone[0], 1); // fd[1] = pipefdone[0];
             //comand line
             //execlp("usr/bin/tar", "tar", "czf", "-",inputFile, NULL);
-            execlp("usr/bin/tar", "tar", "czf", "-", inputFile,NULL);
+            execlp("tar", "tar", "czf", "-", inputFile,NULL);
             perror("execlp tar");
             fprintf(stderr, "errno: %d\n", errno);
             exit(EXIT_FAILURE);
@@ -42,10 +48,10 @@
         if (!fork()) {
             close (0); // close stdin // in child fd[0]=NULL
             close (1) ; // close stdout // in CHILD fd[1]= NULL
-            dup2 (pipefdone[1], 0);   // in child fd[0]=pipefdone[1];
-            dup2 (pipefdtwo[0], 1);   // in child fd[1]=pipetwo[0];
+            dup2(pipefdone[1], 0);   // in child fd[0]=pipefdone[1];
+            dup2(pipefdtwo[0], 1);   // in child fd[1]=pipetwo[0];
             // TODO need to create commandline
-            execlp ("usr/bin/gzip", "gzip", NULL);
+            execlp ("gzip", "gzip", NULL);
             perror("execpl gzip");
             exit(EXIT_FAILURE);
  	    }
@@ -54,11 +60,12 @@
             close(0); // close STDIN - fd[0] = NULL
             dup2(pipefdtwo[1], 0); // fd[0] = pipefdtwo[1];
             // TODO need to create commandline
-            execlp("usr/bin/gpg", "gpg", "--encrypt", NULL);
+            execlp("gpg", "gpg", "--encrypt","-r", NULL);
             perror("execpl gpg");
             exit(EXIT_FAILURE);
         }
         wait(NULL);
+        
         
         printf ("compression completeted terminating\n");
     }else if(strcmp(inputFile, "myunzip") == 0){

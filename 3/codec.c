@@ -5,8 +5,7 @@
 
 // Global variable for the codec
 
-typedef struct
-{
+typedef struct{
     char key[62];
 } Codec;
 
