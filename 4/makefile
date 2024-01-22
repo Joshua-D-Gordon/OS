@@ -8,4 +8,4 @@ main:  main.c
 .PHONY: clean
 
 clean:
-	-rm main
+	-rm -f main

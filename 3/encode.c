@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
         encode(input_buffer, output_buffer, len, codec);
 
         // Write encoded content to output file
-        FILE* output_file = fopen(argv[2], "a");
+        FILE* output_file = fopen(argv[2], "w");
         if (!output_file) {
             printf( "Error opening output file\n");
             freeCodec(codec);

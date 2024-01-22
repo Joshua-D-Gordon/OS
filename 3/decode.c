@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
         decode(input_buffer, output_buffer, len, codec);
 
         // Write decoded content to output file
-        FILE* output_file = fopen(argv[2], "a");
+        FILE* output_file = fopen(argv[2], "w");
         if (!output_file) {
             fprintf(stderr, "Error opening output file\n");
             freeCodec(codec);

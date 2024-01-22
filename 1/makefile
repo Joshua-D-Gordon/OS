@@ -1,6 +1,6 @@
 .PHONY: all
 	
-all: main mainfour
+all: main mainfour debug debugfour
 
 debug: main.c
 	gcc -g main.c -o mainDebug

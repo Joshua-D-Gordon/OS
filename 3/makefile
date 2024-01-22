@@ -1,13 +1,12 @@
+.PHONY: all
+
 all: lib decode encode
 
-codec:  codec.c codec.h
-	gcc -o codec.c
-
 decode:	codec.h decode.c lib
-	gcc decode.c -L.  -o decode
+	gcc decode.c -L. -l Codec -o decode
 
 encode:  codec.h encode.c lib
-	gcc encode.c -fPIC -ldl -o encode
+	gcc encode.c -L. -l Codec -o encode
 
 lib:	codec.h codec.c
 	gcc -shared codec.c -fPIC -o libCodec.so
@@ -15,4 +14,4 @@ lib:	codec.h codec.c
 .PHONY: clean
 
 clean:
-	-rm codec decode encode libCodec.so 2>/dev/null
+	-rm -f decode encode libCodec.so 2>/dev/null
