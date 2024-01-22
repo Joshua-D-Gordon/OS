@@ -4,7 +4,7 @@
 int main(){
     printf("enter 3 integers for triangle sides\n");
     double a, b, c;
-    scanf("%f %f %f", &a, &b, &c);
+    scanf("%lf %lf %lf", &a, &b, &c);
     if(pow(a,2) + pow(b,2) == pow(c,2)){
         double aa, ba, ca;
         //furmula found on calculator.net/triangle
