@@ -6,42 +6,43 @@
 
 #define MAX_BUFFER_SIZE 1000
 
+// for loading functions from library
 typedef int (*EncodeFunction)(char*, char*, int, void*);
-// typedef void* (*CreateCodecFunction)(char[62]);
+typedef void* (*CreateCodecFunction)(char[62]);
 typedef void (*FreeCodecFunction)(void*);
 
 int main(int argc, char* argv[]) {
+    // make sure program gets 3 argc's (name, txtin, txtout)
     if (argc != 3) {
         printf( "Usage: %s input_file output_file\n", argv[0]);
         return 0;
     }
 
-    // Load the codec library dynamically
-    void* library_handle = dlopen("./libcodec.so", RTLD_LAZY);
+    // Load the codec library dynamically with lazyloading
+    void* library_handle = dlopen("./libCodec.so", RTLD_LAZY);
     if (!library_handle) {
         printf( "Error loading library: %s\n", dlerror());
         return 0;
     }
 
     // Load functions from the library
-    // CreateCodecFunction createCodec = (CreateCodecFunction)dlsym(library_handle, "createCodec");
-    Codec* codec = dlsym(library_handle, "globalCodec");
+    CreateCodecFunction createCodec = (CreateCodecFunction)dlsym(library_handle, "createCodec");
     EncodeFunction encode = (EncodeFunction)dlsym(library_handle, "encode");
     FreeCodecFunction freeCodec = (FreeCodecFunction)dlsym(library_handle, "freeCodec");
 
-    if ( !encode || !freeCodec) {
+    if ( !encode || !freeCodec || !createCodec) {
         printf( "Error loading functions: %s\n", dlerror());
         dlclose(library_handle);
         return 0;
     }
 
     // Create the codec
-    // void* codec = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
-    /*if (!codec) {
+    void* codec = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
+    if (codec == NULL) {
         printf( "Error creating codec\n");
         dlclose(library_handle);
         return 0;
-    } */
+    }
 
     // Read input file
     FILE* input_file = fopen(argv[1], "r");

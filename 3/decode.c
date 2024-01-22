@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define MAX_BUFFER_SIZE 1000
-
+// for loading functions from library
 typedef int (*DecodeFunction)(char*, char*, int, void*);
 typedef void* (*CreateCodecFunction)(char[62]);
 typedef void (*FreeCodecFunction)(void*);
