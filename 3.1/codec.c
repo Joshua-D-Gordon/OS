@@ -2,74 +2,36 @@
 #include <stdlib.h>
 #include <string.h>
 #include "codec.h"
-
-// Global variable for the codec
-
-
-
-static Codec *globalCodec = NULL;
-
-int findPosition(char letter)
-{
-    char firstChar;
-
-    if ('a' <= letter && letter <= 'z')
-    {
-        firstChar = 'a';
-    }
-    else if ('A' <= letter && letter <= 'Z')
-    {
-        firstChar = 'A' - 'a';
-    }
-    else if ('0' <= letter && letter <= '9')
-    {
-        firstChar = '0' - 'a' - 'A';
-    }
-    else
-    {
-        // Handle invalid input
-        return -1;
-    }
-
-    return letter - firstChar;
-}
+#include <ctype.h>
 
 void *createCodec(char key[62])
 {
-
-    if (globalCodec != NULL)
-    {
-        fprintf(stderr, "Error: createCodec called multiple times.\n");
-        return NULL;
-    }
-    Codec *globalCodec = (Codec *)malloc(sizeof(Codec));
-
-    // Check if all the charaters exist and that there are only one existence for each character
-    int allCharacter[62];
-
-    // Check if memory was allocated
-
-    if (globalCodec == NULL)
-    {
-        return NULL;
-    }
-
-    int keyLength = strlen(key);
     // Check for invalid key length
-    if (keyLength != 62)
-    {
-        free(globalCodec);
-        globalCodec = NULL;
+    if(strlen(key)!= 62){
+        printf("key not eql to 62 for codec\n");
         return NULL;
     }
-    for (int i = 0; i < keyLength; i++)
-    {
-        int currentPos = findPosition(key[i]);
+    //allocate memory for Codec
+    Codec *globalCodec = (Codec *)malloc(sizeof(Codec));
+    // Check if memory was allocated
+    if (globalCodec == NULL)
+    {   
+        printf("global Codec not created in malloc function\n");
+        return NULL;
+    }
+    // Check if all the charaters exist and that there are only one existence for each character
+    //just one long array of 127 all values from a - 0
 
-        if (allCharacter[currentPos] == 1)
-        {
+    int allCharacter[127] = {0}; // array of all 0's
+    
+    for (int i = 0; i < 62; i++)
+    {
+        int currentPos = key[i];
+
+        if (allCharacter[currentPos] == 1) // OPS already exists!
+        {   
+            printf("global codec charaters exist and that there are only one existence for each character ERROR\n");
             free(globalCodec);
-            globalCodec = NULL;
             return NULL;
         }
         allCharacter[currentPos] = 1;
@@ -145,14 +107,13 @@ int decode(char *textin, char *textout, int len, void *codec)
 
 void freeCodec(void *codec)
 {
-    if (globalCodec == NULL)
+    if (codec == NULL)
     {
         fprintf(stderr, "Error: freeCodec called without codec initialization.\n");
         return;
     }
 
-    free(globalCodec);
-    globalCodec = NULL;
+    free(codec);
 }
 
 // int main(int argc, char *argv[])

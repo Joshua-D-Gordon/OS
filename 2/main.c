@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <math.h>
+// need to add a margin of error epsilon for marginal errors?
 int main(){
     printf("enter 3 integers for triangle sides\n");
-    int a, b, c;
-    scanf("%d %d %d", &a, &b, &c);
+    double a, b, c;
+    scanf("%f %f %f", &a, &b, &c);
     if(pow(a,2) + pow(b,2) == pow(c,2)){
         double aa, ba, ca;
         //furmula found on calculator.net/triangle

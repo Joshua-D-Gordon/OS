@@ -13,6 +13,15 @@
 
     printf("the file / foldr is : %s\n",inputFile);
 
+    // fdarry THIS ARRARY DOES NOT EXIST
+ 	// fd[0] = STDIN
+ 	// fd[1] = STDOUT
+ 	// fd[2] = STDERR
+ 	// fd[3] = pipefdone[0]; 
+ 	// fd[4] = pipefdone[1]; 
+ 	// fd[5] = pipefdtwo[0]; 
+ 	// fd[6] = pipefdtwo[1];
+
     //if myzip need to zip file
     if(strcmp(inputFile, "myzip") == 0){
         printf("\nmyzip\n\n");
@@ -61,7 +70,7 @@
             dup2(pipefdtwo[0], 0); // fd[0] = pipefdtwo[1];
             close(pipefdtwo[0]);
             // TODO need to create commandline
-            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myunzip.gpg",  NULL);
+            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myzip.gpg",  NULL);
             perror("execpl gpg");
             exit(EXIT_FAILURE);
         }
