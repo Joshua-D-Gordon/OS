@@ -37,7 +37,8 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    // Create the codec
+    // Create the codec 
+    //TODO MAY NEED TO CHANGE
     void* codec = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
     // if failed print error close library and return 0
     if (codec == NULL) {

@@ -77,7 +77,10 @@
             close(pipefdtwo[1]);
             // TODO need to create commandline
             //output to myzip.gpg
-            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myzip.gpg",  NULL); //comand line for gpg
+            //TODO MAY NEED TO CHANGE TO SCANF TO GET GPG USER DETAILS UID
+            //print(here how you ufnd your id....)
+            //scnaf(...enter uid)
+            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myunzip.gpg",  NULL); //comand line for gpg
             perror("execpl gpg");
             exit(EXIT_FAILURE);
         }
@@ -95,7 +98,8 @@
         return 0;
     
     //UNZIP
-    }else if(strcmp(inputFile, "myzip.gpg") == 0){ // if case is myzip.gpg need to unzip
+    }else if(strcmp(inputFile, "myunzip") == 0){ // if case is myzip.gpg need to unzip
+        strcpy(inputFile,"myunzip.gpg"); 
         printf("\nmyunzip.gpg\n\n");
         //creating pipeline
         int pipefdone[2];
@@ -148,7 +152,9 @@
             close(pipefdone[1]);
             close(pipefdtwo[1]);
             //Todo use tar xzf -C ./myunzip to put contents in myunzip folder
-            execlp("tar", "tar", "xzf", "-","-C","/home/jodogo/Desktop/OS_Matala_1/4/myunzip", NULL);
+            //TODO TO MAKE A DIR 
+
+            execlp("tar", "tar", "xzf", "-","-C","myunzip", NULL);
             perror("execlp tar");
             //printf(stderr, "errno: %d\n", errno);
             exit(EXIT_FAILURE);
@@ -166,7 +172,7 @@
         printf("finished unzip terminiating");
 
         return 0;
-    //no folder myzip or myunzip.gpg    
+    //no folder/ command myzip or myunzip  
     }else{
         printf("No folder named myzip or myunzip given in argv");
         exit(-1);
