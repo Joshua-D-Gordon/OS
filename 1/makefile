@@ -3,10 +3,10 @@
 all: main mainfour
 
 debug: main.c
-	gcc -g main.c -o main
+	gcc -g main.c -o mainDebug
 
 debugfour: mainfour.c
-	gcc -g mainfour.c -o mainfour
+	gcc -g mainfour.c -o mainfourDebug
 	
 mainfour: mainfour.c
 	gcc mainfour.c -o mainfour
@@ -14,4 +14,4 @@ main: main.c
 	gcc main.c -o main
 
 clean:
-	rm -f main mainfour
+	rm -f main mainfour mainDebug mainfourDebug
