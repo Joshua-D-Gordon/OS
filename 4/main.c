@@ -8,8 +8,7 @@
 
  int main(int argc, char * argv[]) {
  // Phase 1 
- 	//system ("tar ls | gzip | gpg");   // Get the accurate commmand line
-    char *inputFile = argv[1];
+    char *inputFile = argv[1]; //input folder name is myzip or myzip.gpg
 
     printf("the file / foldr is : %s\n",inputFile);
 
@@ -23,11 +22,12 @@
  	// fd[6] = pipefdtwo[1];
 
     //ZIP
-    if(strcmp(inputFile, "myzip") == 0){
+    if(strcmp(inputFile, "myzip") == 0){ // if myzip need to zip folder
         printf("\nmyzip\n\n");
         //creating pipeline
         int pipefdone[2];
         int pipefdtwo[2];
+        //cheecking pipes have not failed
         if(pipe(pipefdone) == -1){
             perror("pipe");
             exit(1);
@@ -47,11 +47,11 @@
             close(pipefdtwo[0]);
             close(pipefdtwo[1]);
             // TODO need to create commandline
-            execlp("tar", "tar", "czf", "-", inputFile,NULL);
+            execlp("tar", "tar", "czf", "-", inputFile,NULL); //command for tar
             perror("execlp tar");
             exit(EXIT_FAILURE);
         }
-        
+        //second child
         if (!fork()) {
             close (0); // close stdin // in child fd[0]=NULL
             close (1) ; // close stdout // in child fd[1]= NULL
@@ -62,11 +62,11 @@
             close(pipefdone[1]);
             close(pipefdtwo[0]);
             // TODO need to create commandline
-            execlp ("gzip", "gzip", NULL);
+            execlp ("gzip", "gzip", NULL); // command line for gzip
             perror("execpl gzip");
             exit(EXIT_FAILURE);
  	    }
-       
+        //third child
         if(!fork()){
             close(0); // close STDIN - fd[0] = NULL
             dup2(pipefdtwo[0], 0); // fd[0] = pipefdtwo[1] --> duplicate read end of second pipe;
@@ -76,7 +76,8 @@
             close(pipefdone[1]);
             close(pipefdtwo[1]);
             // TODO need to create commandline
-            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myzip.gpg",  NULL);
+            //output to myzip.gpg
+            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myzip.gpg",  NULL); //comand line for gpg
             perror("execpl gpg");
             exit(EXIT_FAILURE);
         }
@@ -85,20 +86,21 @@
         close(pipefdone[1]);
         close(pipefdtwo[0]);
         close(pipefdtwo[1]);
-
+        // wait fot 3 child processes
         wait(NULL);
         wait(NULL);
         wait(NULL);
-
+        //print complete and return 0
         printf ("compression completeted terminating\n");
         return 0;
     
     //UNZIP
-    }else if(strcmp(inputFile, "myzip.gpg") == 0){
+    }else if(strcmp(inputFile, "myzip.gpg") == 0){ // if case is myzip.gpg need to unzip
         printf("\nmyunzip.gpg\n\n");
+        //creating pipeline
         int pipefdone[2];
         int pipefdtwo[2];
-
+        //cheecking pipes have not failed
         if(pipe(pipefdone) == -1){
             perror("pipe");
             exit(1);
@@ -107,44 +109,45 @@
             perror("pipe");
             exit(1);
         }
-
+        //child one
         if(!fork()){
-            close(1); 
-            dup2(pipefdone[1], 1);
+            close(1); // close STDOUT fd[1] = NULL
+            dup2(pipefdone[1], 1); // fd[1] = pipefdone[1] --> write to end of first pipe;
             
             //close unused ends of pipes in child process to avoid hanging
             close(pipefdone[0]);
             close(pipefdtwo[0]);
             close(pipefdtwo[1]);
+            //TODO comand line for gpg dycrypt
             execlp("gpg", "gpg", "--decrypt", "--output","-", inputFile, NULL);
             perror("execlp gpg");
             exit(EXIT_FAILURE);
         }
-
+        //child two
         if(!fork()){
-            close(0);
-            close(1);
-            dup2(pipefdone[0],0);
-            dup2(pipefdtwo[1], 1);
+            close(0);// close STDIN in child
+            close(1);// close STDOUT in child
+            dup2(pipefdone[0],0);// in child fd[0]=pipefdone[0] --> duplicate the read end of first pipe to STDIN;
+            dup2(pipefdtwo[1], 1);// in child fd[1]=pipetwo[0] --> duplicate the write end of second pipe STDOUT;
 
             //close unused ends of pipes in child process to avoid hanging
             close(pipefdone[1]);
             close(pipefdtwo[0]);
-
+            //TODO use comand gunzip to unzip contents
             execlp("gunzip", "gunzip", NULL);
             perror("execlp gunzip");
             exit(EXIT_FAILURE);
         }
-
+        //child three
         if(!fork()){
             close(0); // close STDIN - fd[0] = NULL
-            dup2(pipefdtwo[0], 0);
+            dup2(pipefdtwo[0], 0); // fd[0] = pipefdtwo[0] --> duplicate read end of second pipe;
 
             //close unused ends of pipes in child process to avoid hanging
             close(pipefdone[0]);
             close(pipefdone[1]);
             close(pipefdtwo[1]);
-
+            //Todo use tar xzf -C ./myunzip to put contents in myunzip folder
             execlp("tar", "tar", "xzf", "-","-C","/home/jodogo/Desktop/OS_Matala_1/4/myunzip", NULL);
             perror("execlp tar");
             //printf(stderr, "errno: %d\n", errno);
@@ -155,14 +158,15 @@
         close(pipefdone[1]);
         close(pipefdtwo[0]);
         close(pipefdtwo[1]);
-
+        //wait for 3 child processes
         wait(NULL);
         wait(NULL);
         wait(NULL);
-
+        //print finished unzip terminiating and return 0
         printf("finished unzip terminiating");
 
         return 0;
+    //no folder myzip or myunzip.gpg    
     }else{
         printf("No folder named myzip or myunzip given in argv");
         exit(-1);

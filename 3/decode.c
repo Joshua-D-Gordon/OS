@@ -10,12 +10,13 @@ typedef void* (*CreateCodecFunction)(char[62]);
 typedef void (*FreeCodecFunction)(void*);
 
 int main(int argc, char* argv[]) {
+    // make sure program gets 3 argc's (name, txtin, txtout)
     if (argc != 3) {
         fprintf(stderr, "Usage: %s input_file output_file\n", argv[0]);
         return 0;
     }
 
-    // Load the codec library dynamically
+    // Load the codec library dynamically with lazy loading
     void* library_handle = dlopen("./libCodec.so", RTLD_LAZY);
     if (!library_handle) {
         fprintf(stderr, "Error loading library: %s\n", dlerror());
@@ -27,6 +28,7 @@ int main(int argc, char* argv[]) {
     DecodeFunction decode = (DecodeFunction)dlsym(library_handle, "decode");
     FreeCodecFunction freeCodec = (FreeCodecFunction)dlsym(library_handle, "freeCodec");
 
+    // if cant load any one of the functions print error close library and return 0
     if (!createCodec || !decode || !freeCodec) {
         fprintf(stderr, "Error loading functions: %s\n", dlerror());
         dlclose(library_handle);
@@ -35,6 +37,7 @@ int main(int argc, char* argv[]) {
 
     // Create the codec
     void* codec = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
+    // if failed print error close library and return 0
     if (!codec) {
         fprintf(stderr, "Error creating codec\n");
         dlclose(library_handle);
