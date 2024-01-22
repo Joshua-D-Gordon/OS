@@ -13,10 +13,19 @@
 
     printf("the file / foldr is : %s\n",inputFile);
 
-    //if myzip need to zip file
+    // fdarry THIS ARRARY DOES NOT EXIST
+ 	// fd[0] = STDIN
+ 	// fd[1] = STDOUT
+ 	// fd[2] = STDERR
+ 	// fd[3] = pipefdone[0]; 
+ 	// fd[4] = pipefdone[1]; 
+ 	// fd[5] = pipefdtwo[0]; 
+ 	// fd[6] = pipefdtwo[1];
+
+    //ZIP
     if(strcmp(inputFile, "myzip") == 0){
         printf("\nmyzip\n\n");
-        //creating 2 pipelines
+        //creating pipeline
         int pipefdone[2];
         int pipefdtwo[2];
         if(pipe(pipefdone) == -1){
@@ -28,35 +37,30 @@
             exit(1);
         }
 
-        // fdarry THIS ARRARY DOES NOT EXIST
-        // fd[0] = STDIN
-        // fd[1] = STDOUT
-        // fd[2] = STDERR
-        // fd[3] = pipefdone[0]; 
-        // fd[4] = pipefdone[1]; 
-        // fd[5] = pipefdtwo[0]; 
-        // fd[6] = pipefdtwo[1];
-
         //first child process
         if(!fork()){
-            close(1); // closing STDOUT in child fd[1] = NULL
-            dup2(pipefdone[0], 1); // fd[1] = pipefdone[0];
-            //close(pipefdone[0]); // dont need this
-            //comand line
-            //execlp("usr/bin/tar", "tar", "czf", "-",inputFile, NULL);
+            close(1); // closing STDOUT fd[1] = NULL
+            dup2(pipefdone[1], 1); // fd[1] = pipefdone[1] --> write to end of first pipe;
+            
+            //close unused ends of pipes in child process to avoid hanging
+            close(pipefdone[0]);
+            close(pipefdtwo[0]);
+            close(pipefdtwo[1]);
+            // TODO need to create commandline
             execlp("tar", "tar", "czf", "-", inputFile,NULL);
             perror("execlp tar");
-            fprintf(stderr, "errno: %d\n", errno);
             exit(EXIT_FAILURE);
         }
         
         if (!fork()) {
             close (0); // close stdin // in child fd[0]=NULL
-            close (1) ; // close stdout // in CHILD fd[1]= NULL
-            dup2(pipefdone[1], 0);   // in child fd[0]=pipefdone[0];
-            dup2(pipefdtwo[0], 1);   // in child fd[1]=pipetwo[1];
-            //close(pipefdone[0]);
-            //close(pipefdtwo[1]);
+            close (1) ; // close stdout // in child fd[1]= NULL
+            dup2(pipefdone[0], 0);   // in child fd[0]=pipefdone[0] --> duplicate the read end of first pipe to STDIN;
+            dup2(pipefdtwo[1], 1);   // in child fd[1]=pipetwo[0] --> duplicate the write end of second pipe STDOUT;
+            
+            //close unused ends of pipes in child process to avoid hanging
+            close(pipefdone[1]);
+            close(pipefdtwo[0]);
             // TODO need to create commandline
             execlp ("gzip", "gzip", NULL);
             perror("execpl gzip");
@@ -65,13 +69,18 @@
        
         if(!fork()){
             close(0); // close STDIN - fd[0] = NULL
-            dup2(pipefdtwo[1], 0); // fd[0] = pipefdtwo[1];
-            //close(pipefdtwo[0]);
+            dup2(pipefdtwo[0], 0); // fd[0] = pipefdtwo[1] --> duplicate read end of second pipe;
+
+            //close unused ends of pipes in child process to avoid hanging
+            close(pipefdone[0]);
+            close(pipefdone[1]);
+            close(pipefdtwo[1]);
             // TODO need to create commandline
-            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myunzip.gpg",  NULL);
+            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myzip.gpg",  NULL);
             perror("execpl gpg");
             exit(EXIT_FAILURE);
         }
+        //close unused ends of pipes in process to avoid hanging
         close(pipefdone[0]);
         close(pipefdone[1]);
         close(pipefdtwo[0]);
@@ -83,7 +92,9 @@
 
         printf ("compression completeted terminating\n");
         return 0;
-    }else if(strcmp(inputFile, "myunzip.gpg") == 0){
+    
+    //UNZIP
+    }else if(strcmp(inputFile, "myzip.gpg") == 0){
         printf("\nmyunzip.gpg\n\n");
         int pipefdone[2];
         int pipefdtwo[2];
@@ -98,19 +109,27 @@
         }
 
         if(!fork()){
-            close(1); // closing STDOUT in child fd[1] = NULL
-            dup2(pipefdone[0], 1); // fd[1] = pipefdone[0];
-
+            close(1); 
+            dup2(pipefdone[1], 1);
+            
+            //close unused ends of pipes in child process to avoid hanging
+            close(pipefdone[0]);
+            close(pipefdtwo[0]);
+            close(pipefdtwo[1]);
             execlp("gpg", "gpg", "--decrypt", "--output","-", inputFile, NULL);
             perror("execlp gpg");
             exit(EXIT_FAILURE);
         }
 
         if(!fork()){
-            close (0); // close stdin // in child fd[0]=NULL
-            close (1) ; // close stdout // in CHILD fd[1]= NULL
-            dup2(pipefdone[1], 0);   // in child fd[0]=pipefdone[0];
-            dup2(pipefdtwo[0], 1);   // in child fd[1]=pipetwo[1];
+            close(0);
+            close(1);
+            dup2(pipefdone[0],0);
+            dup2(pipefdtwo[1], 1);
+
+            //close unused ends of pipes in child process to avoid hanging
+            close(pipefdone[1]);
+            close(pipefdtwo[0]);
 
             execlp("gunzip", "gunzip", NULL);
             perror("execlp gunzip");
@@ -119,13 +138,19 @@
 
         if(!fork()){
             close(0); // close STDIN - fd[0] = NULL
-            dup2(pipefdtwo[1], 0); // fd[0] = pipefdtwo[1];
+            dup2(pipefdtwo[0], 0);
 
-            execlp("tar", "tar", "xvf", "-", NULL);
+            //close unused ends of pipes in child process to avoid hanging
+            close(pipefdone[0]);
+            close(pipefdone[1]);
+            close(pipefdtwo[1]);
+
+            execlp("tar", "tar", "xzf", "-","-C","/home/jodogo/Desktop/OS_Matala_1/4/myunzip", NULL);
             perror("execlp tar");
             //printf(stderr, "errno: %d\n", errno);
             exit(EXIT_FAILURE);
         }
+        //close unused ends of pipes in process to avoid hanging
         close(pipefdone[0]);
         close(pipefdone[1]);
         close(pipefdtwo[0]);
@@ -143,6 +168,13 @@
         exit(-1);
     }
  
- 	
+ 	// fdarry THIS ARRARY DOES NOT EXIST
+ 	// fd[0] = STDIN
+ 	// fd[1] = STDOUT
+ 	// fd[2] = STDERR
+ 	// fd[3] = pipefdone[0]; 
+ 	// fd[4] = pipefdone[1]; 
+ 	// fd[5] = pipefdtwo[0]; 
+ 	// fd[6] = pipefdtwo[1];
 
  }
