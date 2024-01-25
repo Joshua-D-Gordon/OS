@@ -39,7 +39,10 @@ int main(int argc, char* argv[]) {
 
     // Create the codec 
     //TODO MAY NEED TO CHANGE
-    void* codec = createCodec("defghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abc");
+    char key[62];
+    printf("please enter a legal key[62] key for the codec:\n");
+    scanf("%s", key);
+    void* codec = createCodec(key);
     // if failed print error close library and return 0
     if (codec == NULL) {
         printf( "Error creating codec\n");
