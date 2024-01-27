@@ -81,7 +81,7 @@
             //print(here how you ufnd your id....)
             //scnaf(...enter uid)
             
-            execlp("gpg", "gpg", "--encrypt","--recipient","joshua gordon <jodogo9897@gmail.com>","--output","myunzip.gpg",  NULL); //comand line for gpg
+            execlp("gpg", "gpg", "--encrypt","--recipient","moria grohar <moriagro@gmail.com>","--output","myunzip.gpg",  NULL); //comand line for gpg
             perror("execpl gpg");
             exit(EXIT_FAILURE);
         }
