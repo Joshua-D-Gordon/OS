@@ -37,8 +37,8 @@ Our IDs end in 3 and 4, so we did Bag A and B.
 5. To find the relevant line, you need to run gdb with the debugger, then at the end of the initial caption, write down exactly which line the error is in, in our case, it appears on line 8.
    <br /> <img width="229" alt="צילום מסך 2024-01-22 181444" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/41743925-f48c-4d0c-b641-edbf4931c56e"> <br />
 
-6. First we will install ddd:
-   <img width="289" alt="צילום מסך 2024-01-22 181914" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/70c8b241-2d26-4446-8dd7-6e9883c5ff0e">
+6. First we will install ddd: <br />
+   <img width="289" alt="צילום מסך 2024-01-22 181914" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/70c8b241-2d26-4446-8dd7-6e9883c5ff0e"> <br />
    To open core using a graphical debugger, you need to do the following line in Terminal: `ddd ./mainDebug` <br />
 
    <img width="502" alt="צילום מסך 2024-01-22 183019" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/6e8007d5-1e80-4c3d-b4fb-5d6a67657ca2"> <br /> In the graphical debugger, you can add breakpoints and see the graphical gdb: <br />
@@ -83,13 +83,16 @@ Our IDs end in 3 and 4, so we did Bag A and B.
  <br />
 
 6. To open core using a graphical debugger, you need to do the following line in Terminal: `ddd ./mainfourDebug` <br />
-  <img width="502" alt="צילום מסך 2024-01-22 185010" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/946cf27f-4555-41c0-a830-20aa80a5bd43"> <br />   In the graphical debugger, you can add breakpoints and see the graphical gdb: <br />
+  <img width="502" alt="צילום מסך 2024-01-22 185010" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/946cf27f-4555-41c0-a830-20aa80a5bd43">
+  <br />
+In the graphical debugger, you can add breakpoints and see the graphical gdb: <br />
   <img width="425" alt="צילום מסך 2024-01-22 185032" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/8b7267b3-a398-437d-a6fd-32c6c4abead3">
 
 ## Question 2
-The program is running and working and thinking well. <br />
-**We assumed that the third variable was the permit.** <br />
-**In addition, we added a margin of confidence if the margin of error is up to 0.0001 then it is true.** <br /> <br />
+The program is running and working well. <br />
+**Assumptions:** <br />
+1. The third variable was the permit. <br />
+2. We added a margin of confidence if the margin of error is up to 0.0001 then it is true. <br /> <br />
 
 Compilation of the program:
 
@@ -112,5 +115,61 @@ When we run a triple that is not Pythagorean, for example: 4,5,6 the program wil
 
 ## Question 3
 
-## Question 4
+The program is running and working well. <br />
+**Assumptions:** <br />
+1. When calling a file's encryption or decryption, you will get the encryption key from the user using the scan function. <br />
+2. We defined a max_buffer of 1000 so it will be the max length of the input that we can: <br />
+<img width="176" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/b544a5e6-eb4b-4c3a-87a2-542ca068a688">
+<br />
+Compilation of the program: <br />
+<img width="218" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/d904158f-f88d-44c5-a5a7-b6be5f90cb23">
+<br />
+The compilation of the files also compiles the lib file.
+<br />
+Running the encryption file: <br />
+<img width="311" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/f88ce7a1-eb29-4308-870f-c8250c430c4f">
 
+We can see that we ask for an encryption key to run the encryption file.
+My input file contains a string, my output_file contains the output from the encryption. <br />
+My input file: <br />
+<img width="216" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/dc4be9a9-b6a0-4192-8994-9468e74ccc1e"> 
+<br />
+My output file: <br />
+<img width="213" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/3ee44d6b-da63-4eaf-95af-4e9c91d51d5f">
+<br />
+Running the decryption file: <br />
+<img width="302" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/17786768-0eda-47c0-a2d7-799724e76a1c">
+<br />
+We can see that we ask for a decryption key to run the decryption file.
+My output file contains a string, and my input file contains the output from the encryption. <br />
+My output file: <br />
+<img width="207" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/56c366c6-1730-4cbe-8392-491b43ad0141">
+<br />
+My input file: <br />
+<img width="204" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/c42dcc83-23c9-4eae-800a-2c3357229162">
+<br />
+
+## Question 4
+The program is running and working well. <br />
+**Assumptions:** <br />
+1. We need the folder we want to compressor-encryptor like zip will be called `myzip`. <br />
+2. We need the folder we want to decompressor-decryptor like unzip will be called `myunzip.exe`. <br />
+3. The gpg that we use to encrypt requires a uid, so we put it in the code itself, the gpg needs to be adjusted to your computer to run it. To adjust the gpg that the uid required is in main.c file in line 84. <br />
+    <img width="683" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/3d700d90-339a-4406-8692-cea79387d8d8">
+ <br />
+4. In the main folder there must be a folder called: `myunzip`, in this folder the files that We unzip go to.
+
+<br />
+Compilation of the program: <br />
+<img width="218" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/d904158f-f88d-44c5-a5a7-b6be5f90cb23">
+<br />
+Running the myzip folder to compressor-encryptor the myzip folder: <br />
+<img width="232" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/5429be28-2c3e-4007-a164-0d027afff19a">
+<br />
+Running the myunzip file to decompressor-decryptor the myunzip file: <br />
+<img width="369" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/f770ea93-b43c-4482-8f81-97185cac1d1f">
+<br />
+To run the myunzip command you we send only the name of the file (Without the .gpg).
+
+<br />
+<br />
