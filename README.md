@@ -1,6 +1,6 @@
 # OS Exc1
 ## Question 1
-Our IDs end in 3 and 4, so we did Bag A and B.
+Our IDs end in 3 and 4, so we did Bug A and B.
 ### Bug A:
 
 1. Compile the program without debugging: <br />
