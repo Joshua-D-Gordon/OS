@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <dlfcn.h>
 #include <string.h>
+#include "encriptor.h"
 
 #define MAX_BUFFER_SIZE 1000
 // for loading functions from library
@@ -17,7 +18,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Load the codec library dynamically with lazy loading
-    void* library_handle = dlopen("./libCodec.so", RTLD_LAZY);
+    void* library_handle = dlopen("./libencriptor.so", RTLD_LAZY);
     if (!library_handle) {
         fprintf(stderr, "Error loading library: %s\n", dlerror());
         return 0;

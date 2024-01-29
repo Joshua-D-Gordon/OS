@@ -157,7 +157,7 @@ The program is running and working well. <br />
 3. The gpg that we use to encrypt requires a uid, so we put it in the code itself, the gpg needs to be adjusted to your computer to run it. To adjust the gpg that the uid required is in main.c file in line 84. <br />
     <img width="683" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/3d700d90-339a-4406-8692-cea79387d8d8">
  <br />
-4. In the main folder there must be a folder called: `myunzip`, in this folder the files that We unzip go to.
+4. In the main folder there must be a folder called: `myunzipFolder`, in this folder the files that We unzip go to.
 
 <br />
 Compilation of the program: <br />
@@ -169,7 +169,7 @@ Running the myzip folder to compressor-encryptor the myzip folder: <br />
 Running the myunzip file to decompressor-decryptor the myunzip file: <br />
 <img width="369" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/f770ea93-b43c-4482-8f81-97185cac1d1f">
 <br />
-To run the myunzip command you we send only the name of the file (Without the .gpg).
+To run the myunzip command, we send only the name of the file (Without the .gpg).
 
 <br />
 <br />

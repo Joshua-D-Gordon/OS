@@ -1,11 +1,14 @@
 .PHONY: all
 	
-all: main
+all: myzip myunzip
 
-main:  main.c
-	gcc main.c -o main
+myzip:  myzip.c
+	gcc myzip.c -o myzip
+
+myunzip:  myunzip.c
+	gcc myunzip.c -o myunzip
 
 .PHONY: clean
 
 clean:
-	-rm -f main
+	-rm -f myzip myunzip

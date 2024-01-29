@@ -1,17 +1,17 @@
 .PHONY: all
 
-all: lib decode encode
+all: encriptor decode encode
 
-decode:	codec.h decode.c lib
-	gcc decode.c -L. -l Codec -o decode
+decode:	encriptor.h decode.c encriptor
+	gcc decode.c -L. -l encriptor -o decode
 
-encode:  codec.h encode.c lib
-	gcc encode.c -L. -l Codec -o encode
+encode:  encriptor.h encode.c encriptor
+	gcc encode.c -L. -l encriptor -o encode
 
-lib:	codec.h codec.c
-	gcc -shared codec.c -fPIC -o libCodec.so
+encriptor:	encriptor.h encriptor.c
+	gcc -shared encriptor.c -fPIC -o libencriptor.so
 
 .PHONY: clean
 
 clean:
-	-rm -f decode encode libCodec.so 2>/dev/null
+	-rm -f decode encode libencriptor.so 2>/dev/null

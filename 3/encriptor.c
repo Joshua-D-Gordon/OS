@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "codec.h"
+#include "encriptor.h"
 #include <ctype.h>
 
 void *createCodec(char key[62])
