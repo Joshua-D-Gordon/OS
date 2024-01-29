@@ -1,5 +1,5 @@
 # OS Exc1
-## Question 1
+## Question 1 (folder called 1)
 Our IDs end in 3 and 4, so we did Bug A and B.
 ### Bug A:
 
@@ -88,7 +88,7 @@ Our IDs end in 3 and 4, so we did Bug A and B.
 In the graphical debugger, you can add breakpoints and see the graphical gdb: <br />
   <img width="425" alt="צילום מסך 2024-01-22 185032" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/8b7267b3-a398-437d-a6fd-32c6c4abead3">
 
-## Question 2
+## Question 2 (folder called 2)
 The program is running and working well. <br />
 **Assumptions:** <br />
 1. The third variable was the permit. <br />
@@ -113,7 +113,7 @@ Another run of the program: <br />
 <img width="217" alt="צילום מסך 2024-01-22 192344" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/75c1b7ba-5908-4d12-a19c-0b1b96882063"> <br />
 When we run a triple that is not Pythagorean, for example: 4,5,6 the program will return Error.
 
-## Question 3
+## Question 3 (folder called 3)
 
 The program is running and working well. <br />
 **Assumptions:** <br />
@@ -122,7 +122,7 @@ The program is running and working well. <br />
 <img width="176" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/b544a5e6-eb4b-4c3a-87a2-542ca068a688">
 <br />
 Compilation of the program: <br />
-<img width="218" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/d904158f-f88d-44c5-a5a7-b6be5f90cb23">
+<img width="236" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/ceb32e3a-6e7f-4e53-8be8-60febaee9093">
 <br />
 The compilation of the files also compiles the lib file.
 <br />
@@ -149,27 +149,27 @@ My input file: <br />
 <img width="204" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/c42dcc83-23c9-4eae-800a-2c3357229162">
 <br />
 
-## Question 4
+## Question 4 (folder called 4)
 The program is running and working well. <br />
 **Assumptions:** <br />
-1. We need the folder we want to compressor-encryptor like zip will be called `myzip`. <br />
-2. We need the folder we want to decompressor-decryptor like unzip will be called `myunzip.exe`. <br />
-3. The gpg that we use to encrypt requires a uid, so we put it in the code itself, the gpg needs to be adjusted to your computer to run it. To adjust the gpg that the uid required is in main.c file in line 84. <br />
-    <img width="683" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/3d700d90-339a-4406-8692-cea79387d8d8">
+1. We have 2 files: myzip and myunzip. <br />
+2. The gpg that we use to encrypt requires a uid, so we put it in the code itself, the gpg needs to be adjusted to your computer to run it. To adjust the gpg the uid required is in myzip.c file in line 89. <br />
+<img width="662" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/0e586d6d-01c5-4d5d-ae12-4ceec3446101">
  <br />
-4. In the main folder there must be a folder called: `myunzipFolder`, in this folder the files that We unzip go to.
+3. In the current folder there must be a folder called: `myunzipFolder`, in this folder the files that We unzip go to.
+4. We assume that myzip gets a folder and myunzip gets a gpg file.
 
 <br />
 Compilation of the program: <br />
-<img width="218" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/d904158f-f88d-44c5-a5a7-b6be5f90cb23">
+<img width="213" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/08b7992e-f1e6-45cd-853c-ae0edf520bba">
 <br />
-Running the myzip folder to compressor-encryptor the myzip folder: <br />
-<img width="232" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/5429be28-2c3e-4007-a164-0d027afff19a">
 <br />
-Running the myunzip file to decompressor-decryptor the myunzip file: <br />
-<img width="369" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/f770ea93-b43c-4482-8f81-97185cac1d1f">
+Running the myzip file with a folder to compressor-encryptor it: <br />
+<img width="241" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/a104e905-0b2a-461b-bdb4-507e3ef4bd60">
 <br />
-To run the myunzip command, we send only the name of the file (Without the .gpg).
+Running the myunzip file with a gpg file to decompressor-decryptor it: <br />
+<img width="356" alt="image" src="https://github.com/Joshua-D-Gordon/OS/assets/99357654/b46206e8-509c-49c7-bc14-200e2a04da3f">
+<br />
 
 <br />
 <br />
